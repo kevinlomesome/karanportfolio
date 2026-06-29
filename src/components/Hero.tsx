@@ -3,7 +3,7 @@ import {
   FaLinkedin,
   FaInstagram,
 } from "react-icons/fa";  
- 
+import profile from "../assets/kevin.jpeg";
 
 import { Link } from "react-router-dom";
 
@@ -93,7 +93,7 @@ function Hero() {
           <div className="flex justify-center">
 
             <img
-              src="/src/assets/kevin.jpeg"
+              src={profile}
               alt="Kevin"
               className="w-96 h-96 rounded-full object-cover border-4 border-cyan-400 shadow-2xl"
             />

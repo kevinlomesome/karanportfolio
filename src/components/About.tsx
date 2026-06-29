@@ -1,5 +1,6 @@
 import { FaReact, FaGitAlt } from "react-icons/fa";
 import { SiTypescript, SiTailwindcss } from "react-icons/si";
+import profile from "../assets/kevin.jpeg";
 
 function About() {
   return (
@@ -17,7 +18,7 @@ function About() {
           {/* Left */}
           <div className="flex justify-center">
             <img
-              src="/src/assets/kevin.jpeg"
+              src={profile}
               alt="Profile"
               className="w-full max-w-xs sm:max-w-sm md:max-w-md rounded-2xl shadow-xl"
             />
