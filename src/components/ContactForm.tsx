@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useFormik } from "formik";
+import emailjs from "@emailjs/browser";
 import { contactSchema } from "../validation/contactSchema";
 import {
   FaEnvelope,
@@ -27,8 +28,7 @@ function ContactForm() {
       setLoading(true);
       setStatus("");
 
-      const object = {
-        access_key: import.meta.env.VITE_WEB3FORMS_ACCESS_KEY,
+      const templateParams = {
         name: values.name,
         email: values.email,
         subject: values.subject,
@@ -36,28 +36,18 @@ function ContactForm() {
       };
 
       try {
-        const response = await fetch(
-          "https://api.web3forms.com/submit",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-            },
-            body: JSON.stringify(object),
-          }
+        await emailjs.send(
+          import.meta.env.VITE_EMAILJS_SERVICE_ID,
+          import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+          templateParams,
+          import.meta.env.VITE_EMAILJS_PUBLIC_KEY
         );
 
-        const result = await response.json();
-
-        if (result.success) {
-          setStatus("✅ Message Sent Successfully!");
-          resetForm();
-        } else {
-          setStatus("❌ Failed to send message.");
-        }
+        setStatus("✅ Message Sent Successfully!");
+        resetForm();
       } catch (error) {
-        setStatus("❌ Something went wrong.");
+        console.error("EmailJS Error:", error);
+        setStatus("❌ Failed to send message.");
       }
 
       setLoading(false);
