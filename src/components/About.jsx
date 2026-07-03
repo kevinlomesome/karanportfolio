@@ -1,5 +1,5 @@
-import { FaReact, FaGitAlt } from "react-icons/fa";
-import { SiTypescript, SiTailwindcss } from "react-icons/si";
+import { FaReact, FaGitAlt, FaJs } from "react-icons/fa";
+import { SiTailwindcss } from "react-icons/si";
 import profile from "../assets/kevin.jpeg";
 
 function About() {
@@ -20,7 +20,7 @@ function About() {
             <img
               src={profile}
               alt="Profile"
-              className="w-full max-w-xs sm:max-w-sm md:max-w-md rounded-2xl shadow-xl"
+              className="w-full max-w-xs sm:max-w-sm md:max-w-md rounded-2xl shadow-xl hover:scale-105 transition duration-300"
             />
           </div>
 
@@ -37,8 +37,9 @@ function About() {
 
             <p className="mt-6 text-gray-300 leading-8 text-base md:text-lg">
               I am a Computer Science student passionate about building
-              responsive websites using React, TypeScript and Tailwind CSS.
-              I enjoy creating clean, modern and user-friendly web applications.
+              responsive websites using React, JavaScript and Tailwind CSS.
+              I enjoy creating clean, modern and user-friendly web applications
+              with beautiful UI and smooth user experiences.
             </p>
 
             {/* Education */}
@@ -60,22 +61,22 @@ function About() {
 
               <div className="grid grid-cols-2 gap-4">
 
-                <div className="flex items-center gap-3 bg-slate-800 px-4 py-3 rounded-xl hover:bg-slate-700 transition">
+                <div className="flex items-center gap-3 bg-slate-800 px-4 py-3 rounded-xl hover:bg-slate-700 transition duration-300">
                   <FaReact className="text-cyan-400 text-2xl" />
                   <span>React</span>
                 </div>
 
-                <div className="flex items-center gap-3 bg-slate-800 px-4 py-3 rounded-xl hover:bg-slate-700 transition">
-                  <SiTypescript className="text-blue-500 text-2xl" />
-                  <span>TypeScript</span>
+                <div className="flex items-center gap-3 bg-slate-800 px-4 py-3 rounded-xl hover:bg-slate-700 transition duration-300">
+                  <FaJs className="text-yellow-400 text-2xl" />
+                  <span>JavaScript</span>
                 </div>
 
-                <div className="flex items-center gap-3 bg-slate-800 px-4 py-3 rounded-xl hover:bg-slate-700 transition">
+                <div className="flex items-center gap-3 bg-slate-800 px-4 py-3 rounded-xl hover:bg-slate-700 transition duration-300">
                   <SiTailwindcss className="text-sky-400 text-2xl" />
                   <span>Tailwind CSS</span>
                 </div>
 
-                <div className="flex items-center gap-3 bg-slate-800 px-4 py-3 rounded-xl hover:bg-slate-700 transition">
+                <div className="flex items-center gap-3 bg-slate-800 px-4 py-3 rounded-xl hover:bg-slate-700 transition duration-300">
                   <FaGitAlt className="text-orange-500 text-2xl" />
                   <span>Git</span>
                 </div>
@@ -84,7 +85,7 @@ function About() {
             </div>
 
             {/* Button */}
-            <button className="mt-10 w-full sm:w-auto bg-cyan-500 hover:bg-cyan-600 px-8 py-3 rounded-lg font-semibold transition duration-300">
+            <button className="mt-10 w-full sm:w-auto bg-cyan-500 hover:bg-cyan-600 px-8 py-3 rounded-lg font-semibold transition duration-300 hover:scale-105">
               Download Resume
             </button>
 

@@ -5,7 +5,7 @@ import { FaBars, FaTimes } from "react-icons/fa";
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const navLinkClass = ({ isActive }: { isActive: boolean }) =>
+  const navLinkClass = ({ isActive }) =>
     isActive
       ? "text-cyan-400 font-semibold"
       : "hover:text-cyan-400 transition";
