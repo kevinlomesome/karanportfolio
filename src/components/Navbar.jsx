@@ -31,12 +31,17 @@ function Navbar() {
             </NavLink>
           </li>
 
+
           <li>
             <NavLink to="/about" className={navLinkClass}>
               About
             </NavLink>
           </li>
-
+          <li>
+            <NavLink to="/skills" className={navLinkClass}>
+              Skills
+            </NavLink>
+          </li>
           <li>
             <NavLink to="/projects" className={navLinkClass}>
               Projects
@@ -52,6 +57,11 @@ function Navbar() {
           <li>
             <NavLink to="/contact" className={navLinkClass}>
               Contact
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/admin" className={navLinkClass}>
+              Admin
             </NavLink>
           </li>
 
@@ -101,6 +111,15 @@ function Navbar() {
                 About
               </NavLink>
             </li>
+            <li>
+              <NavLink
+                to="/skills"
+                className={navLinkClass}
+                onClick={() => setIsOpen(false)}
+              >
+                Skills
+              </NavLink>
+            </li>
 
             <li>
               <NavLink
@@ -132,6 +151,25 @@ function Navbar() {
               </NavLink>
             </li>
 
+
+            <li>
+              <NavLink
+                to="/admin"
+                className={navLinkClass}
+                onClick={() => setIsOpen(false)}
+              >
+                Admin
+              </NavLink>
+            </li>
+
+            <li>
+            <NavLink
+              to="/contact"
+              className="bg-cyan-500 hover:bg-cyan-600 px-5 py-2 rounded-lg transition"
+            >
+              Hire Me
+            </NavLink>
+          </li>
           </ul>
 
         </div>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useFormik } from "formik";
 import emailjs from "@emailjs/browser";
 import { contactSchema } from "../validation/contactSchema";
+import ls from "../utils/secureLS";
 import {
   FaEnvelope,
   FaPhone,
@@ -24,34 +25,68 @@ function ContactForm() {
 
     validationSchema: contactSchema,
 
-    onSubmit: async (values, { resetForm }) => {
-      setLoading(true);
-      setStatus("");
+   onSubmit: async (values, { resetForm }) => {
+  setLoading(true);
+  setStatus("");
 
-      const templateParams = {
-        name: values.name,
-        email: values.email,
-        subject: values.subject,
-        message: values.message,
-      };
+  const templateParams = {
+    name: values.name,
+    email: values.email,
+    subject: values.subject,
+    message: values.message,
+  };
 
-      try {
-        await emailjs.send(
-          import.meta.env.VITE_EMAILJS_SERVICE_ID,
-          import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-          templateParams,
-          import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-        );
+  try {
+    // Send Email
+    await emailjs.send(
+      import.meta.env.VITE_EMAILJS_SERVICE_ID,
+      import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+      templateParams,
+      import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+    );
 
-        setStatus("✅ Message Sent Successfully!");
-        resetForm();
-      } catch (error) {
-        console.error("EmailJS Error:", error);
-        setStatus("❌ Failed to send message.");
-      }
+    
+   // Get Existing Messages
+// Get Existing Messages Safely
+let messages = [];
 
-      setLoading(false);
-    },
+try {
+  messages = ls.get("messages");
+
+  if (!Array.isArray(messages)) {
+    messages = [];
+  }
+} catch (error) {
+  ls.remove("messages");
+  messages = [];
+}
+    // New Message
+    const newMessage = {
+      id: Date.now(),
+      name: values.name,
+      email: values.email,
+      subject: values.subject,
+      message: values.message,
+      date: new Date().toLocaleDateString(),
+    };
+
+    // Add Latest Message First
+    messages.unshift(newMessage);
+
+    // Save
+   ls.set("messages", messages);
+
+   
+    setStatus("✅ Message Sent Successfully!");
+    resetForm();
+
+  } catch (error) {
+    console.error(error);
+    setStatus("❌ Failed to send message.");
+  }
+
+  setLoading(false);
+},
   });
 
   return (

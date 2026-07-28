@@ -1,57 +1,61 @@
-import {
-  FaReact,
-  FaHtml5,
-  FaCss3Alt,
-  FaGitAlt,
-  FaGithub,
-  FaFigma,
-} from "react-icons/fa";
-
-import {
-  SiTypescript,
-  SiJavascript,
-  SiTailwindcss,
-  SiVite,
-} from "react-icons/si";
+import { useEffect, useState } from "react";
+import ls from "../utils/secureLS"; // adjust the path if needed
 
 function Skills() {
-  const skills = [
-    { name: "HTML", icon: <FaHtml5 size={50} className="text-orange-500" /> },
-    { name: "CSS", icon: <FaCss3Alt size={50} className="text-blue-500" /> },
-    { name: "JavaScript", icon: <SiJavascript size={50} className="text-yellow-400" /> },
-    { name: "TypeScript", icon: <SiTypescript size={50} className="text-blue-400" /> },
-    { name: "React", icon: <FaReact size={50} className="text-cyan-400" /> },
-    { name: "Tailwind", icon: <SiTailwindcss size={50} className="text-sky-400" /> },
-    { name: "Vite", icon: <SiVite size={50} className="text-purple-400" /> },
-    { name: "Git", icon: <FaGitAlt size={50} className="text-orange-600" /> },
-    { name: "GitHub", icon: <FaGithub size={50} className="text-white" /> },
-    { name: "Figma", icon: <FaFigma size={50} className="text-pink-500" /> },
-  ];
+  const [skills, setSkills] = useState([]);
+
+  useEffect(() => {
+    try {
+      const storedSkills = ls.get("skills") || [];
+      setSkills(storedSkills);
+    } catch (error) {
+      console.error("Error loading skills:", error);
+      setSkills([]);
+    }
+  }, []);
 
   return (
     <section className="min-h-screen bg-slate-900 text-white py-20">
       <div className="max-w-7xl mx-auto px-6">
 
-        <h1 className="text-5xl font-bold text-center mb-14">
-          My Skills
-        </h1>
+        <div className="text-center mb-14">
+          <h2 className="text-5xl font-bold">
+            My Skills
+          </h2>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
-
-          {skills.map((skill) => (
-            <div
-              key={skill.name}
-              className="bg-slate-800 rounded-2xl p-8 flex flex-col items-center justify-center hover:-translate-y-2 hover:shadow-cyan-500/20 hover:shadow-lg transition-all duration-300"
-            >
-              {skill.icon}
-
-              <h3 className="mt-4 text-lg font-semibold">
-                {skill.name}
-              </h3>
-            </div>
-          ))}
-
+          <p className="text-gray-400 mt-3">
+            Technologies I work with
+          </p>
         </div>
+
+        {skills.length === 0 ? (
+          <div className="text-center text-gray-400 text-xl">
+            No skills added yet.
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+
+            {skills.map((item) => (
+              <div
+                key={item.id}
+                className="bg-slate-800 rounded-2xl p-8 hover:scale-105 transition duration-300 shadow-lg"
+              >
+                <h3 className="text-2xl font-bold text-cyan-400">
+                  {item.skill}
+                </h3>
+
+                <p className="mt-4 text-gray-300">
+                  Level
+                </p>
+
+                <span className="inline-block mt-2 bg-cyan-500 px-4 py-1 rounded-full">
+                  {item.level}
+                </span>
+              </div>
+            ))}
+
+          </div>
+        )}
 
       </div>
     </section>
