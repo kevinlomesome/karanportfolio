@@ -62,29 +62,38 @@ try {
   };
 
     // Add Skill
-    const addSkill = () => {
-      if (skillName.trim() === "") return;
+   const addSkill = () => {
+  if (skillName.trim() === "") return;
 
-      const newSkill = {
-        id: Date.now(),
-        skill: skillName,
-        level,
-      };
+  const newId =
+    skills.length > 0
+      ? Math.max(...skills.map((item) => item.id)) + 1
+      : 1;
 
-      const updated = [...skills, newSkill];
+  const newSkill = {
+    id: newId,
+    skill: skillName,
+    level,
+  };
 
-      saveSkills(updated);
+  const updated = [...skills, newSkill];
 
-      setSkillName("");
-      setLevel("Beginner");
-    };
+  saveSkills(updated);
 
+  setSkillName("");
+  setLevel("Beginner");
+};
     // Delete Skill
     const deleteSkill = (id) => {
-      const updated = skills.filter((item) => item.id !== id);
+  const updated = skills
+    .filter((item) => item.id !== id)
+    .map((item, index) => ({
+      ...item,
+      id: index + 1,
+    }));
 
-      saveSkills(updated);
-    };
+  saveSkills(updated);
+};
 
     // Edit Button
     const editSkill = (item) => {

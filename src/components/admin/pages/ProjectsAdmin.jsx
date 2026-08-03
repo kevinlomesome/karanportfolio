@@ -36,15 +36,19 @@ let storedProjects;
 try {
   storedProjects = ls.get("projects");
 
-  if (!Array.isArray(storedProjects)) {
+  if (!Array.isArray(storedProjects) || storedProjects.length === 0) {
     storedProjects = defaultProjects;
-    ls.set("projects", defaultProjects);
+  } else {
+    // Convert existing IDs to 1,2,3...
+    storedProjects = storedProjects.map((project, index) => ({
+      ...project,
+      id: index + 1,
+    }));
   }
+
+  ls.set("projects", storedProjects);
 } catch (error) {
-  localStorage.removeItem("projects");
-
   storedProjects = defaultProjects;
-
   ls.set("projects", defaultProjects);
 }
 
@@ -63,34 +67,44 @@ const saveProjects = (updatedProjects) => {
 };
   // Add
   const addProject = () => {
-    if (!title || !technology) return;
+  if (!title.trim() || !technology.trim()) return;
 
-    const newProject = {
-      id: Date.now(),
-      title,
-      technology,
-      github,
-      live,
-      status,
-    };
+  const newId =
+    projects.length > 0
+      ? Math.max(...projects.map((item) => Number(item.id))) + 1
+      : 1;
 
-    const updated = [...projects, newProject];
-
-    saveProjects(updated);
-
-    setTitle("");
-    setTechnology("");
-    setGithub("");
-    setLive("");
-    setStatus("Completed");
+  const newProject = {
+    id: newId,
+    title,
+    technology,
+    github,
+    live,
+    status,
   };
+
+  const updated = [...projects, newProject];
+
+  saveProjects(updated);
+
+  setTitle("");
+  setTechnology("");
+  setGithub("");
+  setLive("");
+  setStatus("Completed");
+};
 
   // Delete
   const deleteProject = (id) => {
-    const updated = projects.filter((item) => item.id !== id);
-    saveProjects(updated);
-  };
+  const updated = projects
+    .filter((item) => item.id !== id)
+    .map((item, index) => ({
+      ...item,
+      id: index + 1,
+    }));
 
+  saveProjects(updated);
+};
   // Edit
   const editProject = (project) => {
     setEditingId(project.id);
@@ -103,7 +117,8 @@ const saveProjects = (updatedProjects) => {
 
   // Update
   const updateProject = () => {
-    const updated = projects.map((item) =>
+  const updated = projects
+    .map((item) =>
       item.id === editingId
         ? {
             ...item,
@@ -113,20 +128,22 @@ const saveProjects = (updatedProjects) => {
             live,
             status,
           }
-        : item,
-    );
+        : item
+    )
+    .map((item, index) => ({
+      ...item,
+      id: index + 1,
+    }));
 
-    saveProjects(updated);
+  saveProjects(updated);
 
-    setEditingId(null);
-
-    setTitle("");
-    setTechnology("");
-    setGithub("");
-    setLive("");
-    setStatus("Completed");
-  };
-
+  setEditingId(null);
+  setTitle("");
+  setTechnology("");
+  setGithub("");
+  setLive("");
+  setStatus("Completed");
+};
   return (
     <div className="flex-1 bg-slate-900 min-h-screen p-8">
       {/* Heading */}
